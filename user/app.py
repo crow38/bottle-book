@@ -1,4 +1,3 @@
-# 課題
 from bottle import Bottle, jinja2_template as template, static_file, request, redirect
 
 from bottle import response, run, TEMPLATE_PATH
