@@ -1,36 +1,41 @@
-from bottle import Bottle,\
-    jinja2_template as template,\
-        static_file, request, redirect
-        
+# 課題
+from bottle import Bottle, jinja2_template as template, static_file, request, redirect
+
 from bottle import response, run, TEMPLATE_PATH
 import psycopg2
 import psycopg2.extras
 import os
 
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'book_date'
-DB_USER = 'book_user'
-DB_PASS = 'souta0925'
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_NAME = "book_date"
+DB_USER = "book_user"
+DB_PASS = "souta0925"
+
 
 def get_connection():
-    '''
+    """
     データベースの接続を行う
-    '''
-    dsn = 'host={host} port={port} dbname={dbname} \
-        user={user} password={password}'
-    dsn = dsn.format(user=DB_USER, password=DB_PASS, \
-        host=DB_HOST, port=DB_PORT, dbname=DB_NAME)
+    """
+    dsn = "host={host} port={port} dbname={dbname} \
+        user={user} password={password}"
+    dsn = dsn.format(
+        user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT, dbname=DB_NAME
+    )
     return psycopg2.connect(dsn)
+
 
 app = Bottle()
 
-TEMPLATE_PATH.append(os.path.abspath('user/views'))
-@app.route('/', method=['GET', 'POST'])
+TEMPLATE_PATH.append(os.path.abspath("user/views"))
+
+
+@app.route("/", method=["GET", "POST"])
 def index():
     return "Hello World"
 
-@app.route('/add', method=['GET','POST'])
+
+@app.route("/add", method=["GET", "POST"])
 def add():
     form_html = """<html>
     <head>登録フォーム</head>
@@ -66,59 +71,69 @@ def add():
     </body>
     </html>
     """
-    if request.method == 'GET' or request.forms.get('next') == 'back':
-        return form_html.replace('<!--user_id-->', '').\
-        replace('<!--passwd-->', '').\
-        replace('<!--email-->', '').\
-        replace('<!--user_shi-->', '').\
-        replace('<!--user_mei-->', '')
+    if request.method == "GET" or request.forms.get("next") == "back":
+        return (
+            form_html.replace("<!--user_id-->", "")
+            .replace("<!--passwd-->", "")
+            .replace("<!--email-->", "")
+            .replace("<!--user_shi-->", "")
+            .replace("<!--user_mei-->", "")
+        )
     else:
         form = {}
-        form['user_id'] = request.forms.decode().get('user_id')
-        form['passwd'] = request.forms.decode().get('passwd')
-        form['email'] = request.forms.decode().get('email')
-        form['user_shi'] = request.forms.decode().get('user_shi')
-        form['user_mei'] = request.forms.decode().get('user_mei')
-        
-        if request.forms.get('next') == 'back':
+        form["user_id"] = request.forms.decode().get("user_id")
+        form["passwd"] = request.forms.decode().get("passwd")
+        form["email"] = request.forms.decode().get("email")
+        form["user_shi"] = request.forms.decode().get("user_shi")
+        form["user_mei"] = request.forms.decode().get("user_mei")
+
+        if request.forms.get("next") == "back":
             html = form_html
         else:
             html = confirm_html
-            
-        return html.replace('<!--user_id-->', form['user_id']).\
-        replace('<!--passwd-->', form['passwd']).\
-        replace('<!--email-->', form['email']).\
-        replace('<!--user_shi-->', form['user_shi']).\
-        replace('<!--user_mei-->', form['user_mei'])
-        
-@app.route('/regist', method=["POST"])
+
+        return (
+            html.replace("<!--user_id-->", form["user_id"])
+            .replace("<!--passwd-->", form["passwd"])
+            .replace("<!--email-->", form["email"])
+            .replace("<!--user_shi-->", form["user_shi"])
+            .replace("<!--user_mei-->", form["user_mei"])
+        )
+
+
+@app.route("/regist", method=["POST"])
 def regist():
-    if request.forms.get('next') == 'back':
+    if request.forms.get("next") == "back":
         response.status = 307
-        response.set_header("Location", '/add')
+        response.set_header("Location", "/add")
         return response
     else:
-        user_id = request.forms.decode().get('user_id')
-        passwd = request.forms.decode().get('passwd')
-        email = request.forms.decode().get('email')
-        user_shi = request.forms.decode().get('user_shi')
-        user_mei = request.forms.decode().get('user_mei')
-        
-        #SQLを記入する
+        user_id = request.forms.decode().get("user_id")
+        passwd = request.forms.decode().get("passwd")
+        email = request.forms.decode().get("email")
+        user_shi = request.forms.decode().get("user_shi")
+        user_mei = request.forms.decode().get("user_mei")
+
+        # SQLを記入する
         sql = """insert into book_user \
         (user_id, passwd, email, user_shi, user_mei, del) \
         values \
         (%(user_id)s, %(passwd)s, %(email)s, %(user_shi)s, %(user_mei)s, false)"""
-        val = {'user_id':user_id, 'passwd':passwd,\
-            'email':email, 'user_shi':user_shi,\
-            'user_mei':user_mei}
-        with get_connection() as con:#データベースの接続を取得
-            with con.cursor() as cur:#カーソルを取得
+        val = {
+            "user_id": user_id,
+            "passwd": passwd,
+            "email": email,
+            "user_shi": user_shi,
+            "user_mei": user_mei,
+        }
+        with get_connection() as con:  # データベースの接続を取得
+            with con.cursor() as cur:  # カーソルを取得
                 cur.execute(sql, val)
             con.commit()
-        redirect('/add')
-                
-@app.route('/list')
+        redirect("/add")
+
+
+@app.route("/list")
 def list():
     sql = """SELECT user_id, email, user_shi, \
         user_mei FROM book_user \
@@ -129,7 +144,8 @@ def list():
             cur.execute(sql)
             rows = cur.fetchall()
             rows = [dict(row) for row in rows]
-    return template('list.html', rows=rows)
+    return template("list.html", rows=rows)
 
-if __name__ == '__main__':
-    run(app=app, host='0.0.0.0', port=8889, reloader=True, debug=True)
+
+if __name__ == "__main__":
+    run(app=app, host="0.0.0.0", port=8889, reloader=True, debug=True)
