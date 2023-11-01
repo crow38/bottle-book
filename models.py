@@ -1,16 +1,11 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    Text,
-    create_engine,
-    DateTime,
-    Boolean,
-)
+from sqlalchemy import Column, Integer,\
+    String, Text, text, create_engine,\
+        DATETIME, Boolean, DateTime
 from sqlalchemy.sql import func
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base
+from datetime import datetime
 
-# DB管理
 DATABASE = "postgresql"
 USER = "book_user"
 PASSWORD = "souta0925"
@@ -18,13 +13,12 @@ HOST = "localhost"
 PORT = "5432"
 DB_NAME = "book_date"
 
-URL = f"{DATABASE}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
-engine = create_engine(URL, echo=True)
+URL = "{}://{}:{}@{}:{}/{}".format(DATABASE, USER, PASSWORD, HOST, PORT, DB_NAME)
+engin = create_engine(URL, echo=True)
 
 Base = declarative_base()
-Connection = sessionmaker(bind=engine)
+Connection = sessionmaker(bind=engin)
 connection = Connection()
-
 
 class Books(Base):
     __tablename__ = "books"

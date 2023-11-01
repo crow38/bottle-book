@@ -4,10 +4,10 @@
 {% endblock %}
 {% block logout_btn %}
 <a href="./logout">
-<button type="button" class="btn btn-light">ログアウト</button>
+    <button type="button" class="btn btn-light">ログアウト</button>
 </a>
 {% endblock %}
-{% block content}
+{% block content %}
 <div class="container">
     <div class="row">
         <h3>読書リスト</h3>
@@ -16,15 +16,17 @@
         <a href="add"><button class="btn btn-info">新規追加</button></a>
     </div>
     <div class="row">
-        <table class = "table-bordered">
+        <table class="table table-bordred">
+            <!-- table header -->
             <thead class="thead-dark">
             <tr>
                 {% for header in headers %}
-                <tr>{{header}}</tr>
+                <th>{{header}}</th>
                 {% endfor %}
-            </tr>
+                </tr>
             </thead>
-            {% for list in blockList %}
+            <!-- table body -->
+            {% for list in bookList %}
             <tr>
                 <td>{{list.name}}</td>
                 <td>{{list.volume}}</td>
@@ -32,10 +34,10 @@
                 <td>{{list.publisher}}</td>
                 <td>{{list.memo}}</td>
                 <th>
-                    <a href ="add?id={{list.id_}}">
-                        <button class="btn btn-secondary"><i class="fa-pen"></i></button>
+                    <a href="add?id={{list.id_}}">
+                        <button class="btn btn-secondary"><i class="fas fa-pen"></i></button>
                     </a>
-                    <a href ="delete/{{list.id_}}">
+                    <a href="delete/{{list.id_}}">
                         <button class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
                     </a>
                 </th>
