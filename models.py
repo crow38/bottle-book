@@ -28,25 +28,23 @@ connection = Connection()
 
 class Books(Base):
     __tablename__ = "books"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    volume = Column(String(255))
-    author = Column(String(255))
-    publisher = Column(String(255))
-    memo = Column(Text)
-    create_date = Column(DateTime(timezone=True), default=func.now(), nullable=False)
-    delFlg = Column(Boolean)
-
-
+    id_ = Column("id", Integer, primary_key=True)
+    name = Column("name", String(255))
+    volume = Column("volume", String(255))
+    author = Column("suthor", String(255))
+    publisher = Column("publisher", String(255))
+    memo = Column("memo", Text())
+    create_date = Column("create_date", DateTime(timezone=True), default=func.now(), nullable=False)
+    delFlg = Column("del", Boolean)
+    
 class BookUser(Base):
     __tablename__ = "book_user"
-    user_id = Column(String(255), primary_key=True)
-    passwd = Column(String(255), nullable=False)
-    email = Column(String(255), nullable=False)
-    user_shi = Column(String(255))
-    user_mei = Column(String(255))
-    delFlg = Column(Boolean)
-
-
+    user_id = Column("user_id", String(255), primary_key=True)
+    passwd = Column("passwd", String(255), nullable=False)
+    email = Column("email", String(255), nullable=False)
+    user_shi = Column("user_shi", String(255))
+    user_mei = Column("user_mei", String(255))
+    delFlg = Column("del", Boolean)
+        
 if __name__ == "__main__":
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engin)
