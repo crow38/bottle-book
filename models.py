@@ -25,7 +25,7 @@ class Books(Base):
     id_ = Column("id", Integer, primary_key=True)
     name = Column("name", String(255))
     volume = Column("volume", String(255))
-    author = Column("suthor", String(255))
+    author = Column("author", String(255))
     publisher = Column("publisher", String(255))
     memo = Column("memo", Text())
     create_date = Column("create_date", DateTime(timezone=True), default=func.now(), nullable=False)
