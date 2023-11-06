@@ -1,5 +1,5 @@
 --
--- PostgreSQL database dump
+-- PostgreSQL database dumps
 --
 
 -- Dumped from database version 15.4 (Homebrew)
