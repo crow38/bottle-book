@@ -1,11 +1,11 @@
 --
--- PostgreSQL database dumps
+-- PostgreSQL database dump
 --
 
 -- Dumped from database version 15.4 (Homebrew)
 -- Dumped by pg_dump version 15.4
 
--- Started on 2023-11-06 17:03:30 JST
+-- Started on 2023-11-07 10:42:18 JST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -111,7 +111,11 @@ COPY public.book_user (user_id, passwd, email, user_shi, user_mei, del) FROM std
 
 COPY public.books (id, name, volume, author, publisher, memo, create_date, del) FROM stdin;
 1	統計学	2	阿部ひろし	そしむ	統計学	2023-11-02 10:15:54.091996+09	t
-2	ueda	１	阿部ひろし	そしむ		2023-11-02 10:16:49.332169+09	f
+3	嫌われる勇気	1	岸見一郎	 ダイヤモンド社	自己啓発本	2023-11-07 09:23:07.287438+09	f
+2	ueda	１	阿部ひろし	そしむ		2023-11-02 10:16:49.332169+09	t
+4	統計学		っっs	vvvv	統計学	2023-11-07 09:24:55.356522+09	f
+5	test		test	test		2023-11-07 09:33:23.099399+09	f
+6	test		test	test		2023-11-07 09:33:33.6734+09	f
 \.
 
 
@@ -121,7 +125,7 @@ COPY public.books (id, name, volume, author, publisher, memo, create_date, del) 
 -- Name: books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: book_user
 --
 
-SELECT pg_catalog.setval('public.books_id_seq', 2, true);
+SELECT pg_catalog.setval('public.books_id_seq', 6, true);
 
 
 --
@@ -142,7 +146,7 @@ ALTER TABLE ONLY public.books
     ADD CONSTRAINT books_pkey PRIMARY KEY (id);
 
 
--- Completed on 2023-11-06 17:03:31 JST
+-- Completed on 2023-11-07 10:42:18 JST
 
 --
 -- PostgreSQL database dump complete
