@@ -11,7 +11,7 @@ USER = "book_user"
 PASSWORD = "souta0925"
 HOST = "localhost"
 PORT = "5432"
-DB_NAME = "book_date"
+DB_NAME = "book_data"
 
 URL = "{}://{}:{}@{}:{}/{}".format(DATABASE, USER, PASSWORD, HOST, PORT, DB_NAME)
 engin = create_engine(URL, echo=True)
